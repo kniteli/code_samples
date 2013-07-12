@@ -1,4 +1,7 @@
 <?php
+//I included this in the code sample because it represents work that is forced to work around many issues
+//in an interface. It doesn't look pretty, but it fulfills the criteria that was asked of it, and works
+//around an extremely poorly designed socket api interface.
 
 /*
 	Helper for interfacing with socket based Web Api. One major issue is that server gives back inconsistent
