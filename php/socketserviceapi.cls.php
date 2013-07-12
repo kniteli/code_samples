@@ -86,14 +86,11 @@ class SocketServerAPI {
 				$result = $this->parse_history($ret);
 			}
 		}
-		//echo 'Complete - '.$symbol.' - '.$period.' - '.(microtime(true) - $start)."\n";
-		//remove duplicates
-		$result["bars"] = array_map("unserialize", array_unique(array_map("serialize", $result["bars"])));
 
 		return $result;
 	}
 
-	//takes the pakced byte arrays returned from the mt4 server request and
+	//takes the packed byte arrays returned from the server request and
 	//unpacks them into the proper values
 	private function parse_history($binary_data) {
 		$start      =12;
@@ -108,12 +105,6 @@ class SocketServerAPI {
 		$ar_temp=unpack("ibars/idigits/itimesign",$s);
 		$digits=$ar_temp["digits"];
 
-		//stupid hack to get around the server's idiotic use of the timestamp in server local time
-		//rather than UTC, this is not currently usable as time data is very inconsistent
-		// $temp_time = new DateTime('@'.$ar_temp["timesign"]);
-		// $actual_date = new DateTime($temp_time->format('Y-m-d H:i:s'), new DateTimeZone($this->mt4_timezone));
-		// $ar_temp["timesign"] = $actual_date->getTimestamp();
-
 		$total_len = strlen($binary_data);
 		while($start < $total_len) {
 			$s = substr($binary_data,$start,$length);
@@ -126,12 +117,12 @@ class SocketServerAPI {
 			$history_temp["time"] = $history_temp["time"];
 			$history_temp["high"]+=$history_temp["open"];
 			//we have to treat these as strings since floating point math results in errors
-			$history_temp["high"] = $this->fixed_precision_float($history_temp["high"], $digits);
+			$history_temp["high"] = $this->fixed_precision($history_temp["high"], $digits);
 			$history_temp["low"]+=$history_temp["open"];
-			$history_temp["low"] = $this->fixed_precision_float($history_temp["low"], $digits);
+			$history_temp["low"] = $this->fixed_precision($history_temp["low"], $digits);
 			$history_temp["close"] = $history_temp["open"] + $history_temp["close"];
-			$history_temp["close"] = $this->fixed_precision_float($history_temp["close"], $digits);
-			$history_temp["open"] = $this->fixed_precision_float($history_temp["open"], $digits);
+			$history_temp["close"] = $this->fixed_precision($history_temp["close"], $digits);
+			$history_temp["open"] = $this->fixed_precision($history_temp["open"], $digits);
 			$history[] = $history_temp;
 		}
 
@@ -139,8 +130,8 @@ class SocketServerAPI {
 	}
 
 	//converts an integer representation of a float based on number and digits
-	//digits are the number of decimal places
-	private function fixed_precision_float($num, $digits, $length = 6) {
+	//digits are the number of decimal places: fixed_precision(105686, 5) returns 1.05686
+	private function fixed_precision($num, $digits, $length = 6) {
 		$num = str_pad((string)$num, $length, '0', STR_PAD_LEFT);
 		$num = substr_replace($num, '.', -$digits, 0);
 		return $num;

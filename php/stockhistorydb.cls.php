@@ -14,44 +14,6 @@ class StockHistoryDB {
 	const WEEKLY = 'WEEKLY';
 	const MONTHLY = 'MONTHLY';
 
-	public static $period_details = array(
-		'M1' 		=> array("minutes" => 1, "max_bars" => 65536),
-		'M5' 		=> array("minutes" => 5, "max_bars" => 32768),
-		'M15' 		=> array("minutes" => 15, "max_bars" => 16384),
-		'M30' 		=> array("minutes" => 30, "max_bars" => 16384),
-		'H1' 		=> array("minutes" => 60, "max_bars" => 16384),
-		'H4' 		=> array("minutes" => 240, "max_bars" => 16384),
-		'DAILY' 	=> array("minutes" => 1440, "max_bars" => 16384),
-		'WEEKLY' 	=> array("minutes" => 10080, "max_bars" => 1024),
-		'MONTHLY' 	=> array("minutes" => 43200, "max_bars" => 256)
-	);
-
-	public static $period_interface_map = array(
-		'M1'		=> 'M1',
-		'M5'		=> 'M5',
-		'M15'		=> 'M15',
-		'M30'		=> 'M30',
-		'H1'		=> 'H1',
-		'H4'		=> 'H4',
-		'D1'		=> 'DAILY',
-		'W1'		=> 'WEEKLY',
-		'MN'		=> 'MONTHLY',
-		'AUTO'		=> 'DAILY'
-	);
-
-	public static $period_minutes_map = array(
-		'M1'		=> '1',
-		'M5'		=> '5',
-		'M15'		=> '15',
-		'M30'		=> '30',
-		'H1'		=> '60',
-		'H4'		=> '240',
-		'D1'		=> '1440',
-		'W1'		=> '10080',
-		'MN'		=> '43200',
-		'AUTO'		=> '1440'
-	);
-
 	public function __construct($db) {
 		$this->db = $db;
 	}
