@@ -47,26 +47,24 @@ class StockHistoryDB {
 		return $this->db->get_one($sql, array($symbol, $period));
 	}
 
-	public function get_from_beginning($symbol, $resolution, $maximum) {
+	public function get_from_beginning($symbol, $resolution) {
 		$sql = "SELECT time, open, high, low, close 
 				FROM history_bars 
 				WHERE symbol = ? 
 				AND resolution = ?
-				ORDER BY time ASC
-				LIMIT ".$maximum;
+				ORDER BY time ASC";
 
 		//high charts requires ascending sorting, we require descending for the limit to work
 		//so we flip it before we send it back
 		return $this->db->get_array($sql, array($symbol, $resolution));
 	}
 
-	public function get_from_end($symbol, $resolution, $maximum) {
+	public function get_from_end($symbol, $resolution) {
 		$sql = "SELECT time, open, high, low, close 
 				FROM history_bars 
 				WHERE symbol = ? 
 				AND resolution = ? 
-				ORDER BY time DESC
-				LIMIT ".$maximum;
+				ORDER BY time DESC";
 
 		//high charts requires ascending sorting, we require descending for the limit to work
 		//so we flip it before we send it back
@@ -86,25 +84,23 @@ class StockHistoryDB {
 		return $this->db->get_assoc($sql);
 	}
 
-	public function get_all_symbol_for_display($symbol, $resolution, $maximum) {
+	public function get_all_symbol_for_display($symbol, $resolution) {
 		$sql = "SELECT time, open, high, low, close 
 				FROM history_bars 
 				WHERE symbol = ? 
 				AND resolution = ? 
-				ORDER BY time DESC
-				LIMIT ".$maximum;
+				ORDER BY time DESC";
 
 		//high charts requires ascending sorting, we require descending for the limit to work
 		//so we flip it before we send it back
 		return array_reverse($this->db->get_array($sql, array($symbol, $resolution)));
 	}
 
-	public function get_all_symbol_for_display_by_time($symbol, $resolution, $from, $until, $maximum) {
+	public function get_all_symbol_for_display_by_time($symbol, $resolution, $from, $until) {
 		$sql = "SELECT time, open, high, low, close 
 				FROM history_bars 
 				WHERE symbol = ? AND resolution = ? AND time BETWEEN ? AND ? 
-				ORDER BY time DESC
-				LIMIT ".$maximum;
+				ORDER BY time DESC";
 
 		//high charts requires ascending sorting, we require descending for the limit to work
 		//so we flip it before we send it back
