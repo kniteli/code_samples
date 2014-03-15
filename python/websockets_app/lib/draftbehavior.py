@@ -1,0 +1,4 @@
+
+
+class WinstonDraft(Base):
+	pass

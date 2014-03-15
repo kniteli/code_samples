@@ -1,0 +1,13 @@
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	background: url('/assets/images/canvasbg2.jpg');
+	margin: 0;
+}
+
+.kineticjs-content {
+	display: block !important;
+}
