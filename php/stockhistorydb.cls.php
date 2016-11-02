@@ -54,8 +54,6 @@ class StockHistoryDB {
 				AND resolution = ?
 				ORDER BY time ASC";
 
-		//high charts requires ascending sorting, we require descending for the limit to work
-		//so we flip it before we send it back
 		return $this->db->get_array($sql, array($symbol, $resolution));
 	}
 
@@ -66,9 +64,7 @@ class StockHistoryDB {
 				AND resolution = ? 
 				ORDER BY time DESC";
 
-		//high charts requires ascending sorting, we require descending for the limit to work
-		//so we flip it before we send it back
-		return array_reverse($this->db->get_array($sql, array($symbol, $resolution)));		
+		return $this->db->get_array($sql, array($symbol, $resolution));		
 	}
 
 	public function get_earliest_for_period($symbol, $period) {
@@ -91,9 +87,7 @@ class StockHistoryDB {
 				AND resolution = ? 
 				ORDER BY time DESC";
 
-		//high charts requires ascending sorting, we require descending for the limit to work
-		//so we flip it before we send it back
-		return array_reverse($this->db->get_array($sql, array($symbol, $resolution)));
+		return $this->db->get_array($sql, array($symbol, $resolution));
 	}
 
 	public function get_all_symbol_for_display_by_time($symbol, $resolution, $from, $until) {
@@ -102,8 +96,6 @@ class StockHistoryDB {
 				WHERE symbol = ? AND resolution = ? AND time BETWEEN ? AND ? 
 				ORDER BY time DESC";
 
-		//high charts requires ascending sorting, we require descending for the limit to work
-		//so we flip it before we send it back
-		return array_reverse($this->db->get_array($sql, array($symbol, $resolution, $from, $until)));		
+		return $this->db->get_array($sql, array($symbol, $resolution, $from, $until));		
 	}
 }
