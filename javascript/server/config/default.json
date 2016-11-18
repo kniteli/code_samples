@@ -1,0 +1,13 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "mysql": "mysql://root:admin@localhost:3306/traveler",
+  "public": "../public/",
+  "auth": {
+    "idField": "id",
+    "token": {
+      "secret": "Cy07FOacJvAeVzxp8VTm2LtiUEZ779qjzI0utKI/NhonbvbIjrwHD0CIcPOY5OwQdRLQ9RXm02GbIQSfkPc+YQ=="
+    },
+    "local": {}
+  }
+}

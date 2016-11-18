@@ -1,0 +1,48 @@
+{
+  "name": "traveler",
+  "description": "traveler API server implementation",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "src/",
+  "keywords": [
+    "feathers"
+  ],
+  "license": "MIT",
+  "repository": {},
+  "author": {},
+  "contributors": [],
+  "bugs": {},
+  "engines": {
+    "node": ">= 0.12.0"
+  },
+  "scripts": {
+    "test": "npm run jshint && npm run mocha",
+    "jshint": "jshint src/. test/. --config",
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive",
+    "debug": "node-debug src/"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "cors": "^2.8.1",
+    "feathers": "^2.0.2",
+    "feathers-authentication": "^0.7.12",
+    "feathers-commons": "^0.8.4",
+    "feathers-configuration": "^0.3.3",
+    "feathers-errors": "^2.5.0",
+    "feathers-hooks": "^1.6.1",
+    "feathers-rest": "^1.5.2",
+    "feathers-sequelize": "^1.4.0",
+    "mysql": "^2.12.0",
+    "passport": "^0.3.2",
+    "sequelize": "^3.25.0",
+    "serve-favicon": "^2.3.0",
+    "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.4",
+    "mocha": "^3.1.2",
+    "request": "^2.78.0"
+  }
+}
