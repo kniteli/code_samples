@@ -61,6 +61,8 @@ class WPAPIPlugin {
             //parse our incoming request data
             $req = json_decode(file_get_contents('php://input'));
             $response = array(
+                'code' => 400,
+                'data' => null,
                 'errors' => array()
             );
 
@@ -72,15 +74,16 @@ class WPAPIPlugin {
                     break;
                     default:
                         $response['errors'][] = 'Invalid endpoint';
-                        $this->send_response(400, $response);
+                        $this->send_response($response);
                     break;
                 }
 
                 //send off validated responses
-                $this->send_response(200, $response);
+                $this->send_response($response);
             } else {
                 $response['errors'] = array('message' => 'Unauthorized');
-                $this->send_response(401, $response);
+                $response['code'] = 401;
+                $this->send_response($response);
             }
         }
         return $query;
@@ -96,8 +99,11 @@ class WPAPIPlugin {
     protected function login($data) {
 
         $response = array(
-            'user_id' => null,
-            'auth_cookie' => null,
+            'code' => 400,
+            'data' => array(
+                'user_id' => null,
+                'auth_cookie' => null,
+            ),
             'errors' => array()
         );
 
@@ -107,6 +113,7 @@ class WPAPIPlugin {
             if(wp_check_password( $data->password, $user->data->user_pass, $user->ID)) {
                 $response['user_id'] = $user->ID;
                 $response['auth_cookie'] = $this->get_auth_cookie($user->ID);
+                $response['code'] = 200;
             } else {
                 $response['errors'][] = array('message' => $bad_auth_message);
             }
@@ -130,10 +137,11 @@ class WPAPIPlugin {
     * @param  $code => http response code
     * @param $data => response object data
     */
-    protected function send_response($code = 200, $data) {
-        header('X-PHP-Response-Code: ' . $code, true, $code);
+    protected function send_response($response) {
+        header('X-PHP-Response-Code: ' . $response['code'], true, $response['code']);
         header('content-type: application/json; charset=utf-8');
-        echo json_encode($data)."\n";
+        unset($response['code']);
+        echo json_encode($response)."\n";
         exit;
     }
 
